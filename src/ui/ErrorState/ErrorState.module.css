@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+}
+
+.icon {
+  font-size: 28px;
+  color: var(--color-torch-red);
+}
+
+.message {
+  font-size: 14px;
+  color: var(--color-dim-gray);
+  text-align: center;
+}

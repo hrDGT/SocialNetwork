@@ -1,0 +1,29 @@
+.wrapper {
+  min-height: calc(100vh - 56px);
+  padding: 24px 16px 48px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.sentinel {
+  height: 1px;
+}
+
+.end {
+  text-align: center;
+  color: var(--color-manatee);
+  font-size: 13px;
+  padding: 24px 0;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

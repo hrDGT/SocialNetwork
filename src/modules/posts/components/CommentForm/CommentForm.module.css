@@ -1,0 +1,40 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-light-periwinkle);
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-shark);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.char-count {
+  font-size: 12px;
+  color: var(--color-manatee);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-msg {
+  font-size: 13px;
+  color: var(--color-strong-lime-green);
+}
+
+.error-msg {
+  font-size: 13px;
+  color: var(--color-torch-red);
+}

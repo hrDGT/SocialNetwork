@@ -1,0 +1,48 @@
+.root {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--mui-palette-divider);
+  background-color: var(--mui-palette-background-default);
+  backdrop-filter: blur(8px);
+}
+
+.inner {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.logo {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--mui-palette-text-primary);
+  text-decoration: none;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.logo:hover {
+  color: var(--mui-palette-primary-main);
+}
+
+.signIn {
+  font-family: "DM Mono", "Fira Mono", monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  border-radius: 2px !important;
+  padding: 6px 18px !important;
+  border-color: var(--mui-palette-divider) !important;
+  color: var(--mui-palette-text-secondary) !important;
+  transition: border-color 0.15s, color 0.15s !important;
+}
+
+.signIn:hover {
+  border-color: var(--mui-palette-primary-main) !important;
+  color: var(--mui-palette-primary-main) !important;
+  background-color: transparent !important;
+}
