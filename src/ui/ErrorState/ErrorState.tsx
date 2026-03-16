@@ -1,19 +1,17 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import type { ErrorStateProps } from "./types";
 import styles from "./ErrorState.module.css";
 
 export default function ErrorState({ message, onRetry }: ErrorStateProps) {
   return (
-    <Stack className={styles.root}>
-      <Typography className={styles.icon}>⚠</Typography>
-      <Typography variant="caption" className={styles.message}>
-        {message}
-      </Typography>
+    <div className={styles.root}>
+      <span className={styles.icon}>⚠</span>
+      <p className={styles.message}>{message}</p>
       {onRetry && (
-        <Button variant="outlined" color="primary" onClick={onRetry}>
+        <Button variant="outlined" size="small" onClick={onRetry}>
           Retry
         </Button>
       )}
-    </Stack>
+    </div>
   );
 }

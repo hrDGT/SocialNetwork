@@ -1,4 +1,4 @@
-import { Box, Skeleton, Stack, Typography } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { usePostComments } from "../../hooks/usePostComments";
 import CommentCard from "../CommentCard/CommentCard";
 import type { CommentsPreviewProps } from "./types";
@@ -8,38 +8,28 @@ export default function CommentsPreview({ postId }: CommentsPreviewProps) {
   const { data, isLoading, isError } = usePostComments(postId, 3);
 
   return (
-    <Box className={styles.root}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={1}>
-        <Typography className={styles.heading}>Comments</Typography>
-        {data && (
-          <Typography className={styles.total}>{data.total} total</Typography>
-        )}
-      </Stack>
+    <div className={styles.root}>
+      <div className={styles["heading-row"]}>
+        <span className={styles.heading}>Comments</span>
+        {data && <span className={styles.total}>{data.total}</span>}
+      </div>
 
       {isLoading && (
-        <Stack gap={1}>
-          {[0, 1, 2].map((i) => (
-            <Skeleton
-              key={i}
-              variant="rectangular"
-              height={40}
-              sx={{ bgcolor: "divider", borderRadius: 0 }}
-            />
-          ))}
-        </Stack>
+        <>
+          <Skeleton variant="rectangular" height={36} sx={{ mb: 1, borderRadius: 1 }} />
+          <Skeleton variant="rectangular" height={36} sx={{ mb: 1, borderRadius: 1 }} />
+        </>
       )}
 
-      {isError && (
-        <Typography className={styles.error}>Failed to load comments</Typography>
-      )}
+      {isError && <p className={styles.error}>Failed to load comments</p>}
 
       {data?.comments.map((comment) => (
         <CommentCard key={comment.id} comment={comment} compact />
       ))}
 
       {data?.comments.length === 0 && (
-        <Typography className={styles.empty}>No comments yet</Typography>
+        <p className={styles.empty}>No comments yet</p>
       )}
-    </Box>
+    </div>
   );
 }

@@ -45,14 +45,8 @@ export type User = {
   username: string;
   birthDate: string;
   image: string;
-  bloodGroup: string;
-  height: number;
-  weight: number;
-  eyeColor: string;
-  hair: UserHair;
   address: UserAddress;
   university: string;
   company: UserCompany;
-  bank: UserBank;
   role: string;
 };

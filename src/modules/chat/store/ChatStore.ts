@@ -113,3 +113,4 @@ class ChatStore {
 }
 
 export const chatStore = new ChatStore();
+export { ChatStore };

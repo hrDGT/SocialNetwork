@@ -4,7 +4,6 @@ import type { Post } from "../../posts/types";
 const STORAGE_KEY = "sn_liked_posts";
 
 class LikesStore {
-  // postId → Post snapshot at time of like
   likedPosts: Map<number, Post> = new Map();
 
   constructor() {
@@ -49,3 +48,4 @@ class LikesStore {
 }
 
 export const likesStore = new LikesStore();
+export { LikesStore };

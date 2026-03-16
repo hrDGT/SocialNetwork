@@ -89,7 +89,7 @@
 .info-label {
   font-size: 12px;
   color: var(--color-manatee);
-  margin-bottom: 2px;
+  margin: 0;
 }
 
 .info-value {

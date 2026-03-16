@@ -9,7 +9,6 @@ export type RegisterPayload = {
   lastName: string;
   username: string;
   password: string;
-  age: number;
 };
 
 export type AuthUser = {
