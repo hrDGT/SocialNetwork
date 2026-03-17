@@ -3,13 +3,15 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { authStore } from "../../modules/auth/store/AuthStore";
 import { likesStore } from "../../modules/likes";
-import type { Post } from "../../modules/posts/types";
-import type { AuthUser } from "../../modules/auth/types";
+import { PostCard } from "../../modules/posts";
+import type { Post } from "../../modules/posts";
+import type { AuthUser } from "../../modules/auth";
+import type { LinkProps } from "../types";
 
 const mockNavigate = vi.fn();
 
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ to, children, className, params }: any) => (
+  Link: ({ to, children, className, params }: LinkProps) => (
     <a href={`${to}/${params?.postId ?? ""}`} className={className}>{children}</a>
   ),
   useNavigate: () => mockNavigate,
@@ -20,9 +22,6 @@ vi.mock("../../modules/posts/components/CommentsPreview/CommentsPreview", () => 
     <div data-testid="comments-preview" data-post-id={postId} />
   ),
 }));
-
-import PostCard from "../../modules/posts/components/PostCard/PostCard";
-
 const mockPost: Post = {
   id: 1,
   title: "How to test React components",

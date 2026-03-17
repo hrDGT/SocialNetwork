@@ -1,20 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { authStore } from "../../modules/auth/store/AuthStore";
-import type { AuthUser } from "../../modules/auth/types";
+import { authStore } from "../../modules/auth";
+import { Header } from "../../components";
+import type { AuthUser } from "../../modules/auth";
+import type { LinkProps } from "../types";
 
 const mockNavigate = vi.fn();
 
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ to, children, className, params }: any) => {
+  Link: ({ to, children, className, params }: LinkProps) => {
     const href = params?.userId ? `/users/${params.userId}` : to;
     return <a href={href} className={className}>{children}</a>;
   },
   useNavigate: () => mockNavigate,
 }));
-
-import Header from "../../components/Header/Header";
 
 const mockUser: AuthUser = {
   id: 7, username: "johnd", firstName: "John", lastName: "Doe",

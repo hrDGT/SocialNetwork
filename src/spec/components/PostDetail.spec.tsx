@@ -1,14 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { authStore } from "../../modules/auth/store/AuthStore";
-import { usePostDetail } from "../../modules/posts/hooks/usePostDetail";
-import { usePostComments } from "../../modules/posts/hooks/usePostComments";
-import PostDetail from "../../modules/posts/components/PostDetail/PostDetail";
-import type { Post, CommentsResponse } from "../../modules/posts/types";
-import type { AuthUser } from "../../modules/auth/types";
+import { usePostDetail, usePostComments, PostDetail } from "../../modules/posts";
+import type { Post, CommentsResponse, Comment } from "../../modules/posts";
+import type { AuthUser } from "../../modules/auth";
+import type { LinkProps } from "../types";
 
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ to, children, className }: any) => (
+  Link: ({ to, children, className }: LinkProps) => (
     <a href={to} className={className}>{children}</a>
   ),
 }));
@@ -26,7 +25,9 @@ vi.mock("../../modules/posts/components/CommentForm/CommentForm", () => ({
 }));
 
 vi.mock("../../modules/posts/components/CommentCard/CommentCard", () => ({
-  default: ({ comment }: any) => <div data-testid="comment-card">{comment.body}</div>,
+  default: ({ comment }: { comment: Comment }) => (
+    <div data-testid="comment-card">{comment.body}</div>
+  ),
 }));
 
 const mockPost: Post = {
@@ -60,8 +61,12 @@ describe("PostDetail", () => {
 
   describe("while loading", () => {
     beforeEach(() => {
-      vi.mocked(usePostDetail).mockReturnValue({ isLoading: true, isError: false, data: undefined } as any);
-      vi.mocked(usePostComments).mockReturnValue({ isLoading: true, isError: false, data: undefined } as any);
+      vi.mocked(usePostDetail).mockReturnValue(
+        { isLoading: true, isError: false, data: undefined } as unknown as ReturnType<typeof usePostDetail>
+      );
+      vi.mocked(usePostComments).mockReturnValue(
+        { isLoading: true, isError: false, data: undefined } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<PostDetail postId={5} />);
     });
 
@@ -79,8 +84,10 @@ describe("PostDetail", () => {
       vi.mocked(usePostDetail).mockReturnValue({
         isLoading: false, isError: true,
         error: { message: "Post not found" }, refetch: vi.fn(), data: undefined,
-      } as any);
-      vi.mocked(usePostComments).mockReturnValue({ isLoading: false, isError: false, data: undefined } as any);
+      } as unknown as ReturnType<typeof usePostDetail>);
+      vi.mocked(usePostComments).mockReturnValue(
+        { isLoading: false, isError: false, data: undefined } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<PostDetail postId={5} />);
     });
 
@@ -91,8 +98,12 @@ describe("PostDetail", () => {
 
   describe("when post loads successfully", () => {
     beforeEach(() => {
-      vi.mocked(usePostDetail).mockReturnValue({ isLoading: false, isError: false, data: mockPost } as any);
-      vi.mocked(usePostComments).mockReturnValue({ isLoading: false, isError: false, data: mockComments } as any);
+      vi.mocked(usePostDetail).mockReturnValue(
+        { isLoading: false, isError: false, data: mockPost } as unknown as ReturnType<typeof usePostDetail>
+      );
+      vi.mocked(usePostComments).mockReturnValue(
+        { isLoading: false, isError: false, data: mockComments } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<PostDetail postId={5} />);
     });
 
@@ -132,8 +143,12 @@ describe("PostDetail", () => {
 
   describe("comment form — unauthenticated user", () => {
     beforeEach(() => {
-      vi.mocked(usePostDetail).mockReturnValue({ isLoading: false, isError: false, data: mockPost } as any);
-      vi.mocked(usePostComments).mockReturnValue({ isLoading: false, isError: false, data: mockComments } as any);
+      vi.mocked(usePostDetail).mockReturnValue(
+        { isLoading: false, isError: false, data: mockPost } as unknown as ReturnType<typeof usePostDetail>
+      );
+      vi.mocked(usePostComments).mockReturnValue(
+        { isLoading: false, isError: false, data: mockComments } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<PostDetail postId={5} />);
     });
 
@@ -153,8 +168,12 @@ describe("PostDetail", () => {
   describe("comment form — authenticated user", () => {
     beforeEach(() => {
       authStore.setUser(mockUser);
-      vi.mocked(usePostDetail).mockReturnValue({ isLoading: false, isError: false, data: mockPost } as any);
-      vi.mocked(usePostComments).mockReturnValue({ isLoading: false, isError: false, data: mockComments } as any);
+      vi.mocked(usePostDetail).mockReturnValue(
+        { isLoading: false, isError: false, data: mockPost } as unknown as ReturnType<typeof usePostDetail>
+      );
+      vi.mocked(usePostComments).mockReturnValue(
+        { isLoading: false, isError: false, data: mockComments } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<PostDetail postId={5} />);
     });
 

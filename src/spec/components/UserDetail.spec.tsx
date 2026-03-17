@@ -2,23 +2,16 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { authStore } from "../../modules/auth/store/AuthStore";
-import { LikesStore } from "../../modules/likes/store/LikesStore";
-import * as likesModule from "../../modules/likes/store/LikesStore";
-import { useUserDetail } from "../../modules/users/hooks/useUserDetail";
-import UserDetail from "../../modules/users/components/UserDetail/UserDetail";
-import type { User } from "../../modules/users/types";
-import type { AuthUser } from "../../modules/auth/types";
-import type { Post } from "../../modules/posts/types";
+import { authStore } from "../../modules/auth";
+import { LikesStore } from "../../modules/likes";
+import * as likesModule from "../../modules/likes";
+import { useUserDetail, UserDetail } from "../../modules/users";
+import type { User } from "../../modules/users";
+import type { AuthUser } from "../../modules/auth";
+import type { Post } from "../../modules/posts";
+import type { LinkProps } from "../types";
 
 const mockNavigate = vi.fn();
-
-type LinkProps = {
-  to: string;
-  children: React.ReactNode;
-  className?: string;
-  params?: Record<string, string | number>;
-};
 
 vi.mock("@tanstack/react-router", () => ({
   Link: ({ to, children, className, params }: LinkProps) => {

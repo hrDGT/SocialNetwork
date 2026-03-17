@@ -1,12 +1,15 @@
-// @vitest-environment jsdom
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { authStore } from "../../modules/auth/store/AuthStore";
-import type { AuthUser } from "../../modules/auth/types";
-import type { ChatMessage, ConnectionStatus } from "../../modules/chat/types";
+import { authStore } from "../../modules/auth";
+import { useUserDetail } from "../../modules/users";
+import { ChatWindow } from "../../modules/chat";
+import type { User } from "../../modules/users";
+import type { AuthUser } from "../../modules/auth";
+import type { ChatMessage, ConnectionStatus } from "../../modules/chat";
+import type { LinkProps } from "../types";
 
-// vi.hoisted ensures mockStore is created before vi.mock factory is called
 const { mockStore } = vi.hoisted(() => {
   const mockStore = {
     status: "idle" as ConnectionStatus,
@@ -28,7 +31,7 @@ const { mockStore } = vi.hoisted(() => {
 });
 
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ to, children, className, params }: any) => {
+  Link: ({ to, children, className, params }: LinkProps) => {
     const href = params?.userId ? `/users/${params.userId}` : to;
     return <a href={href} className={className}>{children}</a>;
   },
@@ -42,9 +45,6 @@ vi.mock("../../modules/chat/store/ChatStore", () => ({
   chatStore: mockStore,
   ChatStore: class {},
 }));
-
-import { useUserDetail } from "../../modules/users/hooks/useUserDetail";
-import ChatWindow from "../../modules/chat/components/ChatWindow/ChatWindow";
 
 const authUser: AuthUser = {
   id: 1, username: "me", firstName: "Alice", lastName: "Brown",
@@ -63,7 +63,7 @@ describe("ChatWindow", () => {
 
     vi.mocked(useUserDetail).mockReturnValue({
       data: { firstName: "Bob", lastName: "Smith", image: "" },
-    } as any);
+    } as never as UseQueryResult<User>);
   });
 
   describe("top bar", () => {

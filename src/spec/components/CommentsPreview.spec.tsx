@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import type { CommentsResponse } from "../../modules/posts/types";
+import type { CommentsResponse } from "../../modules/posts";
 
 vi.mock("../../modules/posts/hooks/usePostComments", () => ({
   usePostComments: vi.fn(),
@@ -22,7 +22,9 @@ const mockComments: CommentsResponse = {
 describe("CommentsPreview", () => {
   describe("while loading", () => {
     beforeEach(() => {
-      vi.mocked(usePostComments).mockReturnValue({ data: undefined, isLoading: true, isError: false } as any);
+      vi.mocked(usePostComments).mockReturnValue(
+        { data: undefined, isLoading: true, isError: false } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<CommentsPreview postId={1} />);
     });
 
@@ -33,7 +35,9 @@ describe("CommentsPreview", () => {
 
   describe("when loading fails", () => {
     beforeEach(() => {
-      vi.mocked(usePostComments).mockReturnValue({ data: undefined, isLoading: false, isError: true } as any);
+      vi.mocked(usePostComments).mockReturnValue(
+        { data: undefined, isLoading: false, isError: true } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<CommentsPreview postId={1} />);
     });
 
@@ -44,7 +48,9 @@ describe("CommentsPreview", () => {
 
   describe("when comments load successfully", () => {
     beforeEach(() => {
-      vi.mocked(usePostComments).mockReturnValue({ data: mockComments, isLoading: false, isError: false } as any);
+      vi.mocked(usePostComments).mockReturnValue(
+        { data: mockComments, isLoading: false, isError: false } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<CommentsPreview postId={1} />);
     });
 
@@ -67,11 +73,9 @@ describe("CommentsPreview", () => {
 
   describe("when there are no comments", () => {
     beforeEach(() => {
-      vi.mocked(usePostComments).mockReturnValue({
-        data: { ...mockComments, comments: [], total: 0 },
-        isLoading: false,
-        isError: false,
-      } as any);
+      vi.mocked(usePostComments).mockReturnValue(
+        { data: { ...mockComments, comments: [], total: 0 }, isLoading: false, isError: false } as unknown as ReturnType<typeof usePostComments>
+      );
       render(<CommentsPreview postId={1} />);
     });
 

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
-import Spinner from "../../ui/Spinner/Spinner";
+import { Spinner } from "../../ui";
 
 describe("Spinner", () => {
   describe("with default label", () => {

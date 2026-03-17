@@ -1,1 +1,1 @@
-export { likesStore } from "./store/LikesStore";
+export { likesStore, LikesStore } from "./store/LikesStore";

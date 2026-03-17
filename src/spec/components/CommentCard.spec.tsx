@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
-import CommentCard from "../../modules/posts/components/CommentCard/CommentCard";
-import type { Comment } from "../../modules/posts/types";
+import { CommentCard } from "../../modules/posts";
+import type { Comment } from "../../modules/posts";
 
 const mockComment: Comment = {
   id: 1,

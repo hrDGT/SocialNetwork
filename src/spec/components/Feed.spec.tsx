@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import type { Post } from "../../modules/posts/types";
+import type { Post } from "../../modules/posts";
 
 vi.mock("../../modules/posts/hooks/usePostsFeed", () => ({
   usePostsFeed: vi.fn(),
@@ -31,7 +31,7 @@ describe("Feed", () => {
       vi.mocked(usePostsFeed).mockReturnValue({
         posts: [], hasMore: false, isLoading: true, isLoadingMore: false,
         isError: false, error: "", loadMore: vi.fn(), retry: vi.fn(), total: 0,
-      } as any);
+      } as unknown as ReturnType<typeof usePostsFeed>);
       render(<Feed />);
     });
 
@@ -51,7 +51,7 @@ describe("Feed", () => {
       vi.mocked(usePostsFeed).mockReturnValue({
         posts: [], hasMore: false, isLoading: false, isLoadingMore: false,
         isError: true, error: "Network error", loadMore: vi.fn(), retry, total: 0,
-      } as any);
+      } as unknown as ReturnType<typeof usePostsFeed>);
       render(<Feed />);
     });
 
@@ -75,7 +75,7 @@ describe("Feed", () => {
       vi.mocked(usePostsFeed).mockReturnValue({
         posts: makePosts(3), hasMore: true, isLoading: false, isLoadingMore: false,
         isError: false, error: "", loadMore: vi.fn(), retry: vi.fn(), total: 3,
-      } as any);
+      } as unknown as ReturnType<typeof usePostsFeed>);
       render(<Feed />);
     });
 
@@ -101,7 +101,7 @@ describe("Feed", () => {
       vi.mocked(usePostsFeed).mockReturnValue({
         posts: makePosts(2), hasMore: false, isLoading: false, isLoadingMore: false,
         isError: false, error: "", loadMore: vi.fn(), retry: vi.fn(), total: 2,
-      } as any);
+      } as unknown as ReturnType<typeof usePostsFeed>);
       render(<Feed />);
     });
 
@@ -115,7 +115,7 @@ describe("Feed", () => {
       vi.mocked(usePostsFeed).mockReturnValue({
         posts: makePosts(2), hasMore: true, isLoading: false, isLoadingMore: true,
         isError: false, error: "", loadMore: vi.fn(), retry: vi.fn(), total: 10,
-      } as any);
+      } as unknown as ReturnType<typeof usePostsFeed>);
       render(<Feed />);
     });
 
