@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Avatar, Button, Chip, Divider } from "@mui/material";
+import { Avatar, Button, Chip } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
@@ -8,24 +8,12 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Spinner, ErrorState, TagList } from "../../../../ui";
+import { InfoRow } from "../InfoRow/InfoRow";
 import { useUserDetail } from "../../hooks/useUserDetail";
 import { likesStore } from "../../../likes";
 import { authStore } from "../../../auth";
 import styles from "./UserDetail.module.css";
-
-type UserDetailProps = { userId: number };
-
-function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return (
-    <div className={styles["info-row"]}>
-      <span className={styles["info-icon"]}>{icon}</span>
-      <div>
-        <p className={styles["info-label"]}>{label}</p>
-        <p className={styles["info-value"]}>{value}</p>
-      </div>
-    </div>
-  );
-}
+import type { UserDetailProps } from "../../types";
 
 export default observer(function UserDetail({ userId }: UserDetailProps) {
   const navigate = useNavigate();

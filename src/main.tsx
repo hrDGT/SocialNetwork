@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CssBaseline } from "@mui/material";
 import "./index.css";
 
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "./app/routeTree.gen";
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();

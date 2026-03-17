@@ -50,3 +50,13 @@ export type User = {
   company: UserCompany;
   role: string;
 };
+
+export type UserDetailProps = {
+  userId: number
+};
+
+export type InfoRowProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: string
+};

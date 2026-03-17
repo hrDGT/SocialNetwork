@@ -8,13 +8,13 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './app/routes/__root'
-import { Route as RegisterRouteImport } from './app/routes/register'
-import { Route as LoginRouteImport } from './app/routes/login'
-import { Route as IndexRouteImport } from './app/routes/index'
-import { Route as UsersUserIdRouteImport } from './app/routes/users.$userId'
-import { Route as PostsPostIdRouteImport } from './app/routes/posts.$postId'
-import { Route as ChatChatIdRouteImport } from './app/routes/chat.$chatId'
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
+import { Route as PostsPostIdRouteImport } from './routes/posts.$postId'
+import { Route as ChatChatIdRouteImport } from './routes/chat.$chatId'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
