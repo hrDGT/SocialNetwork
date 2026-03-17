@@ -9,6 +9,7 @@
   opacity: 0;
   transform: translateY(8px);
   animation: fade-up 0.3s forwards;
+  max-width: 100%;
 }
 
 @keyframes fade-up {
@@ -112,4 +113,35 @@
 
 .view-link:hover {
   color: var(--color-cobalt-blue);
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .body {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 400px) {
+  .meta {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .card {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
 }

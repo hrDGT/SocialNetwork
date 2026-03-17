@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import ChatPage from "../../pages/ChatPage/ChatPage";
+import { ChatPage } from "../../pages";
 import { authStore } from "../../modules/auth";
 
 export const Route = createFileRoute("/chat/$chatId")({
@@ -8,10 +8,10 @@ export const Route = createFileRoute("/chat/$chatId")({
       throw redirect({ to: "/login" });
     }
   },
-  component: ChatRoute,
+  component: ChatPageRoute,
 });
 
-function ChatRoute() {
+function ChatPageRoute() {
   const { chatId } = Route.useParams();
   return <ChatPage chatId={Number(chatId)} />;
 }

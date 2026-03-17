@@ -50,11 +50,12 @@ export default observer(function UserDetail({ userId }: UserDetailProps) {
               size="small"
               sx={{ borderRadius: 1, fontSize: 12, height: 24 }}
             />
+            <br />
             {!isOwnProfile && authStore.isAuthenticated && (
               <Button
                 variant="contained"
                 size="small"
-                sx={{ mt: 1.5, ml: 1 }}
+                sx={{ mt: 1 }}
                 onClick={() => navigate({ to: "/chat/$chatId", params: { chatId: String(userId) } })}
               >
                 Message
