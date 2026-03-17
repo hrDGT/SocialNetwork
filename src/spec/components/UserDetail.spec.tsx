@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { authStore } from "../../modules/auth/store/AuthStore";
 import { LikesStore } from "../../modules/likes/store/LikesStore";
@@ -12,10 +13,21 @@ import type { Post } from "../../modules/posts/types";
 
 const mockNavigate = vi.fn();
 
+type LinkProps = {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+  params?: Record<string, string | number>;
+};
+
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ to, children, className, params }: any) => {
-    const href = params?.postId ? `/posts/${params.postId}` : to;
-    return <a href={href} className={className}>{children}</a>;
+  Link: ({ to, children, className, params }: LinkProps) => {
+    const href = params?.["postId"] ? `/posts/${params["postId"]}` : to;
+    return (
+      <a href={href} className={className}>
+        {children}
+      </a>
+    );
   },
   useNavigate: () => mockNavigate,
 }));
@@ -36,15 +48,14 @@ const mockUser: User = {
   username: "janed",
   birthDate: "1996-01-01",
   image: "",
-  bloodGroup: "A+",
-  height: 165,
-  weight: 60,
-  eyeColor: "Brown",
-  hair: { color: "Black", type: "Straight" },
   address: {
-    address: "1 Main St", city: "Springfield", state: "IL",
-    stateCode: "IL", postalCode: "62701",
-    coordinates: { lat: 0, lng: 0 }, country: "US",
+    address: "1 Main St",
+    city: "Springfield",
+    state: "IL",
+    stateCode: "IL",
+    postalCode: "62701",
+    coordinates: { lat: 0, lng: 0 },
+    country: "US",
   },
   university: "State University",
   company: {
@@ -52,23 +63,36 @@ const mockUser: User = {
     name: "Acme Corp",
     title: "Developer",
     address: {
-      address: "2 Corp Ave", city: "Chicago", state: "IL",
-      stateCode: "IL", postalCode: "60601",
-      coordinates: { lat: 0, lng: 0 }, country: "US",
+      address: "2 Corp Ave",
+      city: "Chicago",
+      state: "IL",
+      stateCode: "IL",
+      postalCode: "60601",
+      coordinates: { lat: 0, lng: 0 },
+      country: "US",
     },
   },
-  bank: { cardExpire: "01/30", cardNumber: "1234", cardType: "Visa", currency: "USD", iban: "US00" },
   role: "user",
 };
 
 const authUser: AuthUser = {
-  id: 99, username: "me", firstName: "Me", lastName: "User",
-  email: "me@example.com", image: "", token: "t",
+  id: 99,
+  username: "me",
+  firstName: "Me",
+  lastName: "User",
+  email: "me@example.com",
+  image: "",
+  token: "t",
 };
 
 const likedPost: Post = {
-  id: 10, title: "Liked post title", body: "body", userId: 1,
-  tags: ["tag1"], reactions: { likes: 5, dislikes: 0 }, views: 100,
+  id: 10,
+  title: "Liked post title",
+  body: "body",
+  userId: 1,
+  tags: ["tag1"],
+  reactions: { likes: 5, dislikes: 0 },
+  views: 100,
 };
 
 describe("UserDetail", () => {
@@ -84,7 +108,11 @@ describe("UserDetail", () => {
 
   describe("while loading", () => {
     beforeEach(() => {
-      vi.mocked(useUserDetail).mockReturnValue({ isLoading: true, isError: false, data: undefined } as any);
+      vi.mocked(useUserDetail).mockReturnValue({
+        isLoading: true,
+        isError: false,
+        data: undefined,
+      } as unknown as UseQueryResult<User>);
       render(<UserDetail userId={2} />);
     });
 
@@ -96,9 +124,12 @@ describe("UserDetail", () => {
   describe("when loading fails", () => {
     beforeEach(() => {
       vi.mocked(useUserDetail).mockReturnValue({
-        isLoading: false, isError: true,
-        error: { message: "User not found" }, refetch: vi.fn(), data: undefined,
-      } as any);
+        isLoading: false,
+        isError: true,
+        error: { message: "User not found" },
+        refetch: vi.fn(),
+        data: undefined,
+      } as unknown as UseQueryResult<User>);
       render(<UserDetail userId={2} />);
     });
 
@@ -109,7 +140,12 @@ describe("UserDetail", () => {
 
   describe("when user loads successfully", () => {
     beforeEach(() => {
-      vi.mocked(useUserDetail).mockReturnValue({ isLoading: false, isError: false, data: mockUser, refetch: vi.fn() } as any);
+      vi.mocked(useUserDetail).mockReturnValue({
+        isLoading: false,
+        isError: false,
+        data: mockUser,
+        refetch: vi.fn(),
+      } as unknown as UseQueryResult<User>);
       render(<UserDetail userId={2} />);
     });
 
@@ -137,10 +173,6 @@ describe("UserDetail", () => {
       expect(screen.queryByText("State University")).not.toBeNull();
     });
 
-    it("renders height in the physical section", () => {
-      expect(screen.queryByText("165 cm")).not.toBeNull();
-    });
-
     it("renders the empty liked posts message", () => {
       expect(screen.queryByText(/no liked posts yet/i)).not.toBeNull();
     });
@@ -148,7 +180,12 @@ describe("UserDetail", () => {
 
   describe("liked posts section", () => {
     beforeEach(() => {
-      vi.mocked(useUserDetail).mockReturnValue({ isLoading: false, isError: false, data: mockUser, refetch: vi.fn() } as any);
+      vi.mocked(useUserDetail).mockReturnValue({
+        isLoading: false,
+        isError: false,
+        data: mockUser,
+        refetch: vi.fn(),
+      } as unknown as UseQueryResult<User>);
       localLikesStore.toggle(likedPost);
       render(<UserDetail userId={2} />);
     });
@@ -158,7 +195,9 @@ describe("UserDetail", () => {
     });
 
     it("renders a link to the liked post", () => {
-      expect(screen.queryByText("Liked post title")?.closest("a")).toHaveAttribute("href", "/posts/10");
+      expect(
+        screen.queryByText("Liked post title")?.closest("a"),
+      ).toHaveAttribute("href", "/posts/10");
     });
 
     it("shows the liked post count in the section heading", () => {
@@ -169,7 +208,12 @@ describe("UserDetail", () => {
   describe("Message button — viewing another user's profile while authenticated", () => {
     beforeEach(() => {
       authStore.setUser(authUser);
-      vi.mocked(useUserDetail).mockReturnValue({ isLoading: false, isError: false, data: mockUser, refetch: vi.fn() } as any);
+      vi.mocked(useUserDetail).mockReturnValue({
+        isLoading: false,
+        isError: false,
+        data: mockUser,
+        refetch: vi.fn(),
+      } as unknown as UseQueryResult<User>);
       render(<UserDetail userId={2} />);
     });
 
@@ -190,7 +234,12 @@ describe("UserDetail", () => {
   describe("Message button — viewing own profile", () => {
     beforeEach(() => {
       authStore.setUser({ ...authUser, id: 2 });
-      vi.mocked(useUserDetail).mockReturnValue({ isLoading: false, isError: false, data: mockUser, refetch: vi.fn() } as any);
+      vi.mocked(useUserDetail).mockReturnValue({
+        isLoading: false,
+        isError: false,
+        data: mockUser,
+        refetch: vi.fn(),
+      } as unknown as UseQueryResult<User>);
       render(<UserDetail userId={2} />);
     });
 
@@ -201,7 +250,12 @@ describe("UserDetail", () => {
 
   describe("Message button — unauthenticated user", () => {
     beforeEach(() => {
-      vi.mocked(useUserDetail).mockReturnValue({ isLoading: false, isError: false, data: mockUser, refetch: vi.fn() } as any);
+      vi.mocked(useUserDetail).mockReturnValue({
+        isLoading: false,
+        isError: false,
+        data: mockUser,
+        refetch: vi.fn(),
+      } as unknown as UseQueryResult<User>);
       render(<UserDetail userId={2} />);
     });
 

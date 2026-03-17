@@ -50,8 +50,6 @@
 }
 
 .section-card {
-  background-color: var(--color-white);
-  border-radius: var(--radius);
   padding: 20px 24px;
 }
 
